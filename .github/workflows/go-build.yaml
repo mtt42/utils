@@ -1,0 +1,22 @@
+name: go-build
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        id: checkout-code
+        uses: actions/checkout@v4
+
+      - name: Build
+        id: build
+        run: |
+          go build -v .
