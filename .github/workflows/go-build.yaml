@@ -2,14 +2,15 @@ name: go-build
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
+    tags:
+      - 'v*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [linux, darwin]
 
     steps:
       - name: Checkout Code
@@ -19,4 +20,12 @@ jobs:
       - name: Build
         id: build
         run: |
-          go build -v .
+          mkdir -p release
+          GOOS=${{ matrix.os }} GOARCH=arm64
+          go build -o release/utils-${{ matrix.os }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release/utils-${{ matrix.os }}
+          path: release/utils-${{ matrix.os }}
