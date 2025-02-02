@@ -25,7 +25,7 @@ jobs:
           go build -o release/utils-${{ matrix.os }}
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release/utils-${{ matrix.os }}
           path: release/utils-${{ matrix.os }}
