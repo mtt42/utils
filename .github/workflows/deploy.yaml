@@ -22,10 +22,10 @@ jobs:
         run: |
           mkdir -p release
           GOOS=${{ matrix.os }} GOARCH=arm64
-          go build -o utils-${{ matrix.os }}
+          go build -o release/utils-${{ matrix.os }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: utils-${{ matrix.os }}
-          path: utils-${{ matrix.os }}
+          path: relase/utils-${{ matrix.os }}
