@@ -1,0 +1,32 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [linux, darwin]
+
+    steps:
+      - name: Checkout Code
+        id: checkout-code
+        uses: actions/checkout@v4
+
+      - name: Build
+        id: build
+        run: |
+          mkdir -p release
+          GOOS=${{ matrix.os }} GOARCH=arm64
+          go build -o release/hello-${{ matrix.os }}-$GOARCH ./cmd/hello/main.go
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-${{ matrix.os }}-$GOARCH
+          path: release/utils-${{ matrix.os }}
